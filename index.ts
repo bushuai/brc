@@ -39,11 +39,11 @@ async function main() {
     await sleep(500);
 
     if (stdout.trim()) {
-      spinner.stop('Workspace has changed.');
+      spinner.stop('Unstaged changes found.');
       const confirmed = await prompts.confirm({
         active: 'Yes',
         inactive: 'No',
-        message: 'There are unstaged changes. Do you want to stash them?'
+        message: 'Do you want to stash them?'
       })
 
       check(confirmed);
@@ -64,7 +64,7 @@ async function main() {
         exit(red('Please commit or stash your changes before switching branches.'));
       }
     } else {
-      spinner.stop('Workspace is clear.');
+      spinner.stop('No Changes.');
       switchBranch();
     }
   });
