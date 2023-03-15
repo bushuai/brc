@@ -45,6 +45,7 @@ async function main() {
         process.exit(0)
       }
     } else {
+      spinner.stop('Workspace is clear.');
       switchBranch();
     }
   });
