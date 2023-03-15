@@ -3,7 +3,7 @@
   "module": "./dist/index.mjs",
   "main": "./dist/index.cjs",
   "packageManager": "pnpm@7.27.1",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "bin": {
     "brch": "bin/brch.js"
   },
