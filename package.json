@@ -2,7 +2,6 @@
   "name": "@bushuai/brch",
   "module": "index.ts",
   "main": "dist/index.cjs",
-  "type": "module",
   "version": "0.0.0",
   "bin": {
     "brch": "bin/brch.js"
