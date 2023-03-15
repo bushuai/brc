@@ -16,6 +16,10 @@ function check(result: unknown) {
   }
 }
 
+function exit() {
+  process.exit(0);
+}
+
 async function main() {
   console.clear();
 
@@ -26,10 +30,11 @@ async function main() {
   exec('git status --porcelain', async (error: any, stdout: string) => {
     if (error) {
       console.error(error);
-      return;
+      exit();
     }
 
     await sleep(500);
+
     if (stdout.trim()) {
       spinner.stop('Workspace has changed.');
       const confirmed = await prompts.confirm({
@@ -67,12 +72,12 @@ async function main() {
     exec('git branch --sort=-committerdate | head -10', async (error: any, stdout: string) => {
       if (error) {
         console.error(error);
-        return;
+        exit();
       }
 
       if (!stdout) {
         console.error('No branch')
-        return;
+        exit();
       }
 
       const branches: string[] = stdout.split('\n') || []
