@@ -22,7 +22,6 @@ async function main() {
       return;
     }
 
-    await sleep(1000);
     if (stdout.trim()) {
       spinner.stop('Workspace has changed.');
       const confirmed = await prompts.confirm({
