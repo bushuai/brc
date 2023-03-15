@@ -64,7 +64,7 @@ async function main() {
 
 
   function switchBranch() {
-    exec('git branch --list', async (error: any, stdout: string) => {
+    exec('git branch --sort=-committerdate | head -10', async (error: any, stdout: string) => {
       if (error) {
         console.error(error);
         return;
