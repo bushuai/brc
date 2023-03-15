@@ -18,7 +18,7 @@
     "dev": "jiti index.ts",
     "build": "tsup index.ts",
     "release": "bumpp && pnpm publish",
-    "prepublishOnly": "bun run build"
+    "prepublishOnly": "pnpm build"
   },
   "dependencies": {
     "@clack/core": "^0.3.2",
