@@ -1,8 +1,7 @@
 {
   "name": "@bushuai/brch",
-  "module": "index.ts",
-  "type": "module",
-  "main": "dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "main": "./dist/index.cjs",
   "packageManager": "pnpm@7.27.1",
   "version": "0.0.0",
   "bin": {
@@ -11,6 +10,10 @@
   "files": [
     "dist"
   ],
+  "exports": {
+    "require": "./dist/index.js",
+    "import": "./dist/index.mjs"
+  },
   "scripts": {
     "dev": "jiti index.ts",
     "build": "tsup index.ts",
@@ -26,5 +29,8 @@
     "bun-types": "^0.5.0",
     "jiti": "^1.17.2",
     "tsup": "^6.6.3"
+  },
+  "engines": {
+    "node": ">=14.19.0"
   }
 }

@@ -3,7 +3,8 @@ import { defineConfig } from 'tsup'
 export default defineConfig({
   entry: ['./index.ts'],
   format: ['esm', 'cjs'],
-  minify: true,
+  minify: false,
   sourcemap: false,
-  clean: true
+  clean: true,
+  target: 'node14'
 })
