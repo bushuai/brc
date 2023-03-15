@@ -4,7 +4,7 @@
   "type": "module",
   "version": "0.0.0",
   "bin": {
-    "brch": "dist/index.cjs"
+    "brch": "bin/brch.js"
   },
   "scripts": {
     "dev": "jiti index.ts",
