@@ -7,6 +7,9 @@
   "bin": {
     "brch": "bin/brch.cjs"
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "dev": "jiti index.ts",
     "build": "tsup index.ts"
