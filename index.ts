@@ -9,6 +9,13 @@ function sleep(delay: number) {
   })
 }
 
+function check(result) {
+  if (prompts.isCancel(result)) {
+    console.error('Operation Cancelled.')
+    process.exit(0)
+  }
+}
+
 async function main() {
   console.clear();
 
@@ -22,6 +29,7 @@ async function main() {
       return;
     }
 
+    await sleep(500);
     if (stdout.trim()) {
       spinner.stop('Workspace has changed.');
       const confirmed = await prompts.confirm({
@@ -30,11 +38,16 @@ async function main() {
         message: 'There are unstaged changes. Do you want to stash them?',
       })
 
+      check(confirmed)
+
       if (confirmed) {
         const message = await prompts.text({
           message: 'Enter the stash message:',
           defaultValue: `stashed at ${Date.now()}`
         })
+
+        check(message)
+
         exec(`git stash save ${message as string}`, () => {
           console.log(green('Changes stashed.'));
           switchBranch();
@@ -76,6 +89,8 @@ async function main() {
         message: 'Select a branch:',
         options,
       })
+
+      check(branch)
 
       exec(`git checkout ${branch}`, () => {
         prompts.outro(green(`✨ Switched to branch ${branch}.`));
