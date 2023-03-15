@@ -1,22 +1,26 @@
 import * as prompts from '@clack/prompts';
 import { exec } from 'node:child_process'
 import { red, green } from 'picocolors';
-import { version } from './package.json'
+import { version } from './package.json';
 
 function sleep(delay: number) {
   return new Promise(resolve => {
-    setTimeout(resolve, delay)
+    setTimeout(resolve, delay);
   })
 }
 
 function check(result: unknown) {
   if (prompts.isCancel(result)) {
     prompts.outro('Operation Cancelled.')
-    process.exit(0)
+    exit();
   }
 }
 
-function exit() {
+function exit(message: string | undefined = '') {
+  if (message) {
+    console.error(message);
+  }
+
   process.exit(0);
 }
 
@@ -25,12 +29,11 @@ async function main() {
 
   prompts.intro(`@bushuai/brc - v${version}`)
   const spinner = prompts.spinner();
-  spinner.start('Checking workspace')
+  spinner.start('Checking workspace');
 
   exec('git status --porcelain', async (error: any, stdout: string) => {
     if (error) {
-      console.error(error);
-      exit();
+      exit(error);
     }
 
     await sleep(500);
@@ -40,10 +43,10 @@ async function main() {
       const confirmed = await prompts.confirm({
         active: 'Yes',
         inactive: 'No',
-        message: 'There are unstaged changes. Do you want to stash them?',
+        message: 'There are unstaged changes. Do you want to stash them?'
       })
 
-      check(confirmed)
+      check(confirmed);
 
       if (confirmed) {
         const message = await prompts.text({
@@ -58,8 +61,7 @@ async function main() {
           switchBranch();
         });
       } else {
-        console.log(red('Please commit or stash your changes before switching branches.'));
-        process.exit(0)
+        exit(red('Please commit or stash your changes before switching branches.'));
       }
     } else {
       spinner.stop('Workspace is clear.');
@@ -71,16 +73,14 @@ async function main() {
   function switchBranch() {
     exec('git branch --sort=-committerdate | head -10', async (error: any, stdout: string) => {
       if (error) {
-        console.error(error);
-        exit();
+        exit(error);
       }
 
       if (!stdout) {
-        console.error('No branch')
-        exit();
+        exit('No branch');
       }
 
-      const branches: string[] = stdout.split('\n') || []
+      const branches: string[] = stdout.split('\n') || [];
 
       const options = branches?.filter((branch) => branch !== '').map((branch) => {
         let val = branch.replace('*', '').trim()
@@ -92,7 +92,7 @@ async function main() {
 
       const branch = await prompts.select({
         message: 'Select a branch:',
-        options,
+        options
       })
 
       check(branch)
