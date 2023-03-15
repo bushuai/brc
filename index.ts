@@ -11,7 +11,7 @@ function sleep(delay: number) {
 
 function check(result) {
   if (prompts.isCancel(result)) {
-    console.error('Operation Cancelled.')
+    prompts.outro('Operation Cancelled.')
     process.exit(0)
   }
 }
