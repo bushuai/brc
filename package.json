@@ -1,10 +1,11 @@
 {
   "name": "@bushuai/brch",
   "module": "index.ts",
+  "type": "module",
   "main": "dist/index.cjs",
   "version": "0.0.0",
   "bin": {
-    "brch": "bin/brch.js"
+    "brch": "bin/brch.cjs"
   },
   "scripts": {
     "dev": "jiti index.ts",

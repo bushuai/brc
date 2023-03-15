@@ -3,8 +3,18 @@ import { exec } from 'node:child_process'
 import { red, green } from 'picocolors';
 import { version } from './package.json'
 
+function sleep(delay: number) {
+  return new Promise(resolve => {
+    setTimeout(resolve, delay)
+  })
+}
+
 async function main() {
+  console.clear();
+
   prompts.intro(`@bushuai/brch - v${version}`)
+  const spinner = prompts.spinner();
+  spinner.start('Checking workspace')
 
   exec('git status --porcelain', async (error: any, stdout: string) => {
     if (error) {
@@ -12,7 +22,9 @@ async function main() {
       return;
     }
 
+    await sleep(1000);
     if (stdout.trim()) {
+      spinner.stop('Workspace has changed.');
       const confirmed = await prompts.confirm({
         active: 'Yes',
         inactive: 'No',
@@ -21,9 +33,8 @@ async function main() {
 
       if (confirmed) {
         const message = await prompts.text({
-          defaultValue: `stashed at ${Date.now()}`,
-          placeholder: 'Enter the stash message:',
-          message: 'Enter the stash message'
+          message: 'Enter the stash message:',
+          defaultValue: `stashed at ${Date.now()}`
         })
         exec(`git stash save ${message as string}`, () => {
           console.log(green('Changes stashed.'));
