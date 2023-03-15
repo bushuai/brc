@@ -50,21 +50,20 @@ async function main() {
         return;
       }
 
-      const branches: string[] = stdout.match(/\b\w+\b/g) || []
-      console.log('[ stdout.match(/\b\w+\b/g)] ', stdout.match(/\b\w+\b/g))
-      const options = branches?.filter((branch) => branch !== '').map((branch) => ({
-        label: branch.trim(),
-        value: branch.trim()
-      }));
+      const branches: string[] = stdout.split('\n') || []
 
-      console.log("[options]", options);
+      const options = branches?.filter((branch) => branch !== '').map((branch) => {
+        let val = branch.replace('*', '').trim()
+        return {
+          label: val,
+          value: val
+        }
+      });
 
       const branch = await prompts.multiselect({
         message: 'Select a branch:',
         options,
       })
-
-      console.log('[branch]', branch);
 
       exec(`git checkout ${branch.toString()}`, () => {
         console.log(green(`Switched to branch ${branch.toString()}.`));
