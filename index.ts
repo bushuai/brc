@@ -6,7 +6,7 @@ import { version } from './package.json'
 async function main() {
   prompts.intro(`@bushuai/brch - v${version}`)
 
-  exec('git status --porcelain', async (error, stdout) => {
+  exec('git status --porcelain', async (error: any, stdout: string) => {
     if (error) {
       console.error(error);
       return;
@@ -39,7 +39,7 @@ async function main() {
   });
 
   function switchBranch() {
-    exec('git branch --list', async (error, stdout) => {
+    exec('git branch --list', async (error: any, stdout: string) => {
       if (error) {
         console.error(error);
         return;
@@ -50,7 +50,7 @@ async function main() {
         return;
       }
 
-      const branches = stdout.match(/\b\w+\b/g) || []
+      const branches: string[] = stdout.match(/\b\w+\b/g) || []
       console.log('[ stdout.match(/\b\w+\b/g)] ', stdout.match(/\b\w+\b/g))
       const options = branches?.filter((branch) => branch !== '').map((branch) => ({
         label: branch.trim(),
@@ -66,8 +66,8 @@ async function main() {
 
       console.log('[branch]', branch);
 
-      exec(`git checkout ${branch}`, () => {
-        console.log(green(`Switched to branch ${branch}.`));
+      exec(`git checkout ${branch.toString()}`, () => {
+        console.log(green(`Switched to branch ${branch.toString()}.`));
       });
     });
   }
