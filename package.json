@@ -5,7 +5,7 @@
   "packageManager": "pnpm@7.27.1",
   "version": "0.0.0",
   "bin": {
-    "brch": "bin/brch.cjs"
+    "brch": "bin/brch.js"
   },
   "files": [
     "dist"
