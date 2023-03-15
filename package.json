@@ -1,11 +1,11 @@
 {
-  "name": "@bushuai/brch",
+  "name": "@bushuai/brc",
   "module": "./dist/index.mjs",
   "main": "./dist/index.cjs",
   "packageManager": "pnpm@7.27.1",
   "version": "0.0.2",
   "bin": {
-    "brch": "bin/brch.js"
+    "brc": "bin/brc.js"
   },
   "files": [
     "dist"

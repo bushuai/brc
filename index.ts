@@ -19,7 +19,7 @@ function check(result: unknown) {
 async function main() {
   console.clear();
 
-  prompts.intro(`@bushuai/brch - v${version}`)
+  prompts.intro(`@bushuai/brc - v${version}`)
   const spinner = prompts.spinner();
   spinner.start('Checking workspace')
 

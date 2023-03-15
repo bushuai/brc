@@ -1,1 +1,1 @@
-# @bushuai/brch
+# @bushuai/brc
