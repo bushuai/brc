@@ -3,6 +3,7 @@
   "module": "index.ts",
   "type": "module",
   "main": "dist/index.cjs",
+  "packageManager": "pnpm@7.27.1",
   "version": "0.0.0",
   "bin": {
     "brch": "bin/brch.cjs"
@@ -12,14 +13,16 @@
   ],
   "scripts": {
     "dev": "jiti index.ts",
-    "build": "tsup index.ts"
+    "build": "tsup index.ts",
+    "release": "bumpp && pnpm publish",
+    "prepublishOnly": "bun run build"
   },
   "dependencies": {
     "@clack/core": "^0.3.2",
     "@clack/prompts": "^0.6.3"
   },
   "devDependencies": {
-    "@swc/core": "^1.3.40",
+    "bumpp": "^9.0.0",
     "bun-types": "^0.5.0",
     "jiti": "^1.17.2",
     "tsup": "^6.6.3"
