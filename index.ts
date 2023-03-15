@@ -49,6 +49,7 @@ async function main() {
     }
   });
 
+
   function switchBranch() {
     exec('git branch --list', async (error: any, stdout: string) => {
       if (error) {
@@ -77,7 +78,7 @@ async function main() {
       })
 
       exec(`git checkout ${branch}`, () => {
-        console.log(green(`Switched to branch ${branch}.`));
+        prompts.outro(green(`✨ Switched to branch ${branch}.`));
       });
     });
   }
