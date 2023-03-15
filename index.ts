@@ -60,13 +60,13 @@ async function main() {
         }
       });
 
-      const branch = await prompts.multiselect({
+      const branch = await prompts.select({
         message: 'Select a branch:',
         options,
       })
 
-      exec(`git checkout ${branch.toString()}`, () => {
-        console.log(green(`Switched to branch ${branch.toString()}.`));
+      exec(`git checkout ${branch}`, () => {
+        console.log(green(`Switched to branch ${branch}.`));
       });
     });
   }
