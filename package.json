@@ -20,7 +20,7 @@
   "scripts": {
     "dev": "jiti index.ts",
     "build": "tsup index.ts",
-    "release": "bumpp && pnpm publish",
+    "release": "bumpp --commit --push --tag && pnpm publish",
     "prepublishOnly": "pnpm build"
   },
   "dependencies": {
