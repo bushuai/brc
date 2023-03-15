@@ -9,7 +9,7 @@ function sleep(delay: number) {
   })
 }
 
-function check(result) {
+function check(result: unknown) {
   if (prompts.isCancel(result)) {
     prompts.outro('Operation Cancelled.')
     process.exit(0)
