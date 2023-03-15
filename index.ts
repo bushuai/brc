@@ -1,70 +1,76 @@
-import { execSync } from 'node:child_process';
-import { prompt } from '@clack/prompts';
+import * as prompts from '@clack/prompts';
+import { exec } from 'node:child_process'
+import { red, green } from 'picocolors';
+import { version } from './package.json'
 
-const getBranches = () => {
-  // 获取最近 10 个分支
-  const branches = execSync('git branch --sort=-committerdate | head -n 10').toString().split('\\n');
+async function main() {
+  prompts.intro(`@bushuai/brch - v${version}`)
 
-  // 过滤掉无效的分支
-  return branches.filter((branch: string) => {
-    return branch && !branch.startsWith('  ');
-  }).map((branch: string) => {
-    return branch.trim().replace('*', '');
-  });
-};
-
-const checkUncommittedChanges = async () => {
-  // 检测当前工作区是否有未提交的更改
-  const uncommittedChanges = execSync('git status --porcelain').toString().trim();
-
-  if (uncommittedChanges) {
-    const answer = await prompt({
-      type: 'confirm',
-      name: 'confirm',
-      message: '当前工作区有未提交的更改，是否暂存更改后再切换分支？'
-    });
-
-    if (answer.confirm) {
-      const stashMessage = await prompt({
-        type: 'input',
-        name: 'message',
-        message: '请输入 stash message：'
-      });
-
-      // 暂存更改
-      execSync(`git stash save ${stashMessage}`);
-
-      console.log('更改已暂存。');
-    } else {
-      console.log('请先提交或撤销更改后再进行操作。');
-      process.exit(1);
+  exec('git status --porcelain', async (error, stdout) => {
+    if (error) {
+      console.error(error);
+      return;
     }
-  }
-};
 
-(async () => {
-  // 检测当前工作区是否有未提交的更改
-  await checkUncommittedChanges();
+    if (stdout.trim()) {
+      const confirmed = await prompts.confirm({
+        active: 'Yes',
+        inactive: 'No',
+        message: 'There are unstaged changes. Do you want to stash them?',
+      })
 
-  // 获取分支列表
-  const branches = getBranches();
-
-  // 选择分支
-  const index = await prompt({
-    type: 'select',
-    name: 'index',
-    message: '请选择要切换的分支：',
-    choices: branches.map((branch: string) => {
-      return {
-        title: branch,
-        value: branch
-      };
-    })
+      if (confirmed) {
+        const message = await prompts.text({
+          defaultValue: `stashed at ${Date.now()}`,
+          placeholder: 'Enter the stash message:',
+          message: 'Enter the stash message'
+        })
+        exec(`git stash save ${message as string}`, () => {
+          console.log(green('Changes stashed.'));
+          switchBranch();
+        });
+      } else {
+        console.log(red('Please commit or stash your changes before switching branches.'));
+        process.exit(0)
+      }
+    } else {
+      switchBranch();
+    }
   });
 
-  // 切换分支
-  const checkout = execSync(`git checkout ${index}`).toString();
+  function switchBranch() {
+    exec('git branch --list', async (error, stdout) => {
+      if (error) {
+        console.error(error);
+        return;
+      }
 
-  console.log(`切换到分支 ${index}：`);
-  console.log(checkout);
-})();
+      if (!stdout) {
+        console.error('No branch')
+        return;
+      }
+
+      const branches = stdout.match(/\b\w+\b/g) || []
+      console.log('[ stdout.match(/\b\w+\b/g)] ', stdout.match(/\b\w+\b/g))
+      const options = branches?.filter((branch) => branch !== '').map((branch) => ({
+        label: branch.trim(),
+        value: branch.trim()
+      }));
+
+      console.log("[options]", options);
+
+      const branch = await prompts.multiselect({
+        message: 'Select a branch:',
+        options,
+      })
+
+      console.log('[branch]', branch);
+
+      exec(`git checkout ${branch}`, () => {
+        console.log(green(`Switched to branch ${branch}.`));
+      });
+    });
+  }
+}
+
+main().catch(console.error)
