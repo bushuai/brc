@@ -22,14 +22,13 @@ function sleep(delay: number) {
 
 function check(result: unknown) {
   if (prompts.isCancel(result)) {
-    prompts.outro("Operation Cancelled.");
-    exit();
+    exit("Operation Cancelled.");
   }
 }
 
 function exit(message: string | undefined = "") {
   if (message) {
-    console.error(message);
+    prompts.outro(message);
   }
 
   process.exit(0);
@@ -43,8 +42,7 @@ async function main() {
   spinner.start("Checking workspace");
 
   if (!(await isGitRepo())) {
-    prompts.outro(`To run ${bold("brc")} in a git repository`);
-    exit();
+    exit(`To run ${bold("brc")} in a git repository`);
   }
 
   exec("git status --porcelain", async (error: any, stdout: string) => {
@@ -73,7 +71,7 @@ async function main() {
         check(message);
 
         exec(`git stash save ${message as string}`, () => {
-          console.log(green("Changes stashed."));
+          prompts.log.info(green("Changes stashed."));
           switchBranch();
         });
       } else {
