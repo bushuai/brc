@@ -1,27 +1,37 @@
 {
   "name": "@bushuai/brc",
-  "module": "./dist/index.mjs",
-  "main": "./dist/index.cjs",
-  "packageManager": "pnpm@7.27.1",
   "version": "0.0.5",
+  "description": "🔸 Easily switch branches",
+  "keywords": [
+    "cli",
+    "command-line",
+    "git",
+    "branch",
+    "clack"
+  ],
+  "license": "MIT",
+  "author": {
+    "name": "bushuai",
+    "email": "bushuai@yahoo.com",
+    "url": "https://twitter.com/bushuai"
+  },
+  "exports": {
+    "require": "./dist/index.js",
+    "import": "./dist/index.mjs"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
   "bin": {
     "brc": "bin/brc.js"
   },
   "files": [
     "dist"
   ],
-  "publishConfig": {
-    "access": "public"
-  },
-  "exports": {
-    "require": "./dist/index.js",
-    "import": "./dist/index.mjs"
-  },
   "scripts": {
-    "dev": "jiti index.ts",
     "build": "tsup index.ts",
-    "release": "bumpp --commit --push --tag && pnpm publish",
-    "prepublishOnly": "pnpm build"
+    "dev": "jiti index.ts",
+    "prepublishOnly": "pnpm build",
+    "release": "bumpp --commit --push --tag && pnpm publish"
   },
   "dependencies": {
     "@clack/core": "^0.3.2",
@@ -33,7 +43,11 @@
     "jiti": "^1.17.2",
     "tsup": "^6.6.3"
   },
+  "packageManager": "pnpm@7.27.1",
   "engines": {
     "node": ">=14.19.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
