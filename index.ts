@@ -54,6 +54,9 @@ async function main() {
 
     if (stdout.trim()) {
       spinner.stop("Unstaged changes found.");
+
+      prompts.log.warn(stdout);
+
       const confirmed = await prompts.confirm({
         active: "Yes",
         inactive: "No",
