@@ -2,4 +2,4 @@
 
 > 🔸 Easily switch branches
 
-![brc](./brc.png)
+![brc](https://github.com/bushuai/brc/raw/main/brc.png)
