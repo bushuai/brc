@@ -1,17 +1,16 @@
 import * as prompts from "@clack/prompts";
 import { exec } from "node:child_process";
-import { stat } from "node:fs/promises";
-import { cwd } from "node:process";
 import { red, green, bold } from "picocolors";
 import { version } from "./package.json";
 
-async function isGitRepo(path = cwd()) {
-  try {
-    await stat(`${path}/.git`);
-    return true;
-  } catch {
-    return false;
-  }
+function isGitRepo() {
+  return new Promise((resolve, reject) => {
+    exec('git rev-parse --is-inside-work-tree', (error: any, stdout: string) => {
+      if (error) reject();
+      if (stdout.trim() === 'true') resolve(true);
+    })
+
+  })
 }
 
 function sleep(delay: number) {
