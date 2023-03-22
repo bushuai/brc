@@ -119,7 +119,7 @@ async function main() {
         check(branch);
 
         exec(`git checkout ${branch}`, () => {
-          prompts.outro(green(`✨ Switched to branch ${branch}.`));
+          prompts.outro(green(`Switched to branch ${branch}.`));
         });
       },
     );
