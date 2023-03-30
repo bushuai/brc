@@ -1,7 +1,7 @@
 {
   "name": "@bushuai/brc",
   "version": "0.4.0",
-  "description": "🔸 Easily switch branches",
+  "description": "🔸 Easily switch git branches",
   "keywords": [
     "cli",
     "command-line",
