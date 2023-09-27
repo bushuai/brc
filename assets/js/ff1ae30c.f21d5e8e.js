@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkbrc_docs=self.webpackChunkbrc_docs||[]).push([[3734],{3960:e=>{e.exports=JSON.parse('{"permalink":"/brc/blog/tags/hola","page":1,"postsPerPage":10,"totalPages":1,"totalCount":1,"blogDescription":"Blog","blogTitle":"Blog"}')}}]);
