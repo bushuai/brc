@@ -2,7 +2,7 @@
 sidebar_position: 1
 ---
 
-# Tutorial Intro | trigger
+# Tutorial Intro - Docusaurus
 
 Let's discover **Docusaurus in less than 5 minutes**.
 
